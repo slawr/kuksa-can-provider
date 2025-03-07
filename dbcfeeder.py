@@ -49,6 +49,7 @@ from dbcfeederlib import databrokerclientwrapper
 from dbcfeederlib import serverclientwrapper
 from dbcfeederlib import clientwrapper
 from dbcfeederlib import elm2canbridge
+from dbcfeederlib import iotdbclientwrapper
 
 from kuksa_client.kuksa_logger import KuksaLogger  # type: ignore
 
@@ -74,6 +75,7 @@ class ServerType(str, enum.Enum):
     """Enum class to indicate type of server dbcfeeder is connecting to"""
     KUKSA_VAL_SERVER = 'kuksa_val_server'
     KUKSA_DATABROKER = 'kuksa_databroker'
+    APACHE_IOTDB = 'apache_iotdb'
 
 
 class Feeder:
@@ -259,7 +261,7 @@ class Feeder:
                         messages_sent += 1
                         if messages_sent >= (2 * last_sent_log_entry):
                             log.info(
-                                "Update datapoint requests sent to kuksa.val so far: %d, "
+                                "Update datapoint requests sent to northbound client so far: %d, "
                                 "maximum number of queued CAN messages so far: %d",
                                 messages_sent, queue_max_size
                             )
@@ -372,6 +374,8 @@ def _get_kuksa_val_client(command_line_parser: argparse.Namespace,
         client: clientwrapper.ClientWrapper = serverclientwrapper.ServerClientWrapper()
     elif server_type is ServerType.KUKSA_DATABROKER:
         client = databrokerclientwrapper.DatabrokerClientWrapper()
+    elif server_type is ServerType.APACHE_IOTDB:
+        client = iotdbclientwrapper.ApacheIoTDBClientWrapper()
     else:
         raise ValueError(f"Unsupported server type: {server_type}")
 

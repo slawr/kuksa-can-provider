@@ -27,7 +27,7 @@ to set in a configuration file.
 | *--use-j1939*         | *USE_J1939*                     | *[can].j1939*           | `False`                          | Use J1939 when decoding CAN frames. Setting the environment variable to any value is equivalent to activating the switch on the command line. |
 | *--use-socketcan*     | -                               | -                       | `False`                          | Use SocketCAN (overriding any use of --dumpfile) |
 | *--mapping*           | *MAPPING_FILE*                  | *[general].mapping*     | `mapping/vss_4.0/vss_dbc.json` | Mapping file used to map CAN signals to databroker datapoints. |
-| *--server-type*       | *SERVER_TYPE*                   | *[general].server_type* | `kuksa_databroker`               | Which type of server the provider should connect to (`kuksa_val_server` or `kuksa_databroker`) |
+| *--server-type*       | *SERVER_TYPE*                   | *[general].server_type* | `kuksa_databroker`               | Which type of server the provider should connect to (`kuksa_val_server`, `kuksa_databroker` or `apache_iotdb`) |
 | -                     | *KUKSA_ADDRESS*                 | *[general].ip*          | `127.0.0.1`                      | IP address for Server/Databroker |
 | -                     | *KUKSA_PORT*                    | *[general].port*        | `55555`                          | Port for Server/Databroker |
 | -                     | -                               | *[general].tls*         | `False`                          | Shall tls be used for Server/Databroker connection? |
@@ -63,7 +63,7 @@ $ ./createvcan.sh vcan0
 $ canplayer vcan0=elmcan -v -I candump.log -l i -g 1
 ```
 
-3. Start the kuksa val server or the databroker, for further infomation see [Using kuksa-val-server](#using-kuksa-val-server) or [Using kuksa-databroker](#using-kuksa-databroker).
+3. Start the kuksa val server or the databroker, for further infomation see [Using kuksa-val-server](#using-kuksa-val-server), [Using kuksa-databroker](#using-kuksa-databroker) or [Using Apache IoTDB or COVESA Central Data Service Playground (CDSP)](#using-apache-iotdb-or-covesa-central-data-service-playground).
 
 4. Run the dbcfeeder.py
 
@@ -75,7 +75,7 @@ $ ./dbcfeeder.py
 
 1. Set the a path to a dumpfile e.g. candump.log in the config file `config/dbc_feeder.ini` or use the argument --dumpfile to use a different dumpfile
 
-2. Start the kuksa val server or the databroker, for further infomation see [Using kuksa-val-server](#using-kuksa-val-server) or [Using kuksa-databroker](#using-kuksa-databroker).
+2. Start the northbound client, for further infomation see [Using kuksa-val-server](#using-kuksa-val-server), [Using kuksa-databroker](#using-kuksa-databroker) or [Using Apache IoTDB or COVESA Central Data Service Playground (CDSP)](#using-apache-iotdb-or-covesa-central-data-service-playground).
 
 3. Run the dbcfeeder.py
 
@@ -273,6 +273,10 @@ VERBOSE: SubscriptionHandler::publishForVSSPath: set value true for path Vehicle
 3. To control that values are fed as expected to KUKSA Databroker you can use the [KUKSA.val Python Client](https://github.com/eclipse/kuksa.val/tree/master/kuksa-client)
    or the  [KUKSA Databroker CLI](https://github.com/eclipse/kuksa.val/tree/master/kuksa_databroker#test-the-databroker-using-cli)
    to connect to the Databroker.
+
+## Using Apache IoTDB or COVESA Central Data Service Playground
+
+See the document [README-covesa-cdsp-iotdb.md](../README-covesa-cdsp-iotdb.md)
 
 ## Logging
 

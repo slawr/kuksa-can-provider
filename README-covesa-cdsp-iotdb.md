@@ -36,5 +36,27 @@ Set the `--server-type` parameter to `apache_iotdb` either on the CLI or in the 
 
 Tip: By default the provider configuration will playback the CAN recording `candump.log`
 
+### SocketCAN connection example
+As noted in the tip above dbcfeeder can directly replay a CAN dump log file. However it can also connect to SocketCAN in linux. This enables access to the wide SocketCAN eco-system such as real and virtual CAN bus connections and user applications such as `SavvyCAN`, `Wireshark` and the SocketCAN `can-utils` user application suite including `canplayer`.
+
+The following is an example of creating a virtual SocketCAN bus and using canplayer to play back the CAN dump `candump.log` as a data source.
+
+1) Create virtual CAN bus:
+```
+./createvcan.sh vcan0
+```
+
+2) Playback `candump.log` on a loop to the virtual CAN in a separate terminal:
+```
+canplayer vcan0=elmcan -v -I candump.log -l i -g 1
+```
+
+3) Execute dbcfeeder to take southbound CAN msgs from the virtual CAN bus, convert the data to VSS and write it to Apache IoTDB northbound:
+
+```
+./dbcfeeder.py --server-type apache_iotdb --use-socketcan
+```
+
+
 ## Notes
 1) CAN Provider does not pass the CAN message timestamp to the client interface. As a result currently we use the host system time in ms as the timestamp when writing data to IoTDB.

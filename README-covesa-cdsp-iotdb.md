@@ -1,4 +1,8 @@
 # Support for Apache IoTDB and the COVESA Central Data Service Playground (CDSP)
+> [!NOTE]
+> This readme covers the extensions implemented in this fork. 
+> For information on the wider upstream project see the [README.md](README.md)
+
 This work adds support for the CAN Provider to write to the Apache IoTDB timeseries database used in the COVESA Central Data Service Playground as a new northbound client type `apache_iotdb`.
 
 
@@ -52,11 +56,9 @@ canplayer vcan0=elmcan -v -I candump.log -l i -g 1
 ```
 
 3) Execute dbcfeeder to take southbound CAN msgs from the virtual CAN bus, convert the data to VSS and write it to Apache IoTDB northbound:
-
 ```
 ./dbcfeeder.py --server-type apache_iotdb --use-socketcan
 ```
-
 
 ## Notes
 1) CAN Provider does not pass the CAN message timestamp to the client interface. As a result currently we use the host system time in ms as the timestamp when writing data to IoTDB.
